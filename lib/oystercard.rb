@@ -6,11 +6,11 @@ class Oystercard
   MIN_FARE = 1
 
   def initialize
-    @list_of_journeys = []
     @balance = 0
     @entry_station = nil
+    @list_of_journeys = []
   end
-
+  
   def add_money(money)
     check_if_max_balance_exceeded(money)
     @balance += money
@@ -29,7 +29,7 @@ class Oystercard
   
   def touch_out(exit_station)
     deduct_money(MIN_FARE)
-    {"Journey: " => "#{entry_staion} -> #{exit_station}"}
+    @list_of_journeys << {"Journey: " => "#{entry_station} -> #{exit_station}"}
     @entry_station = nil
     
   end

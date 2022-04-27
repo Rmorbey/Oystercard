@@ -2,7 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   
-  let(:station){ double :station }
+  let(:entry_station){ double :station }
+  let(:exit_station){ double :station }
 
   it 'returns balance' do
     expect(subject.balance).to eq(0)
@@ -25,47 +26,58 @@ describe Oystercard do
 
   it 'stores the entry station' do 
     subject.add_money(Oystercard::MIN_FARE)
-    subject.touch_in(station)
-    expect(subject.entry_station).to eq station
+    subject.touch_in(entry_station)
+    expect(subject.entry_station).to eq entry_station
   end
 
   describe '#touch_in' do
     it 'when card touches in, in journey is changed to true' do
       subject.add_money(Oystercard::MIN_FARE)
-      subject.touch_in(station)
+      subject.touch_in(entry_station)
       expect(subject).to be_in_journey
     end
 
     it 'it does not let you touch in if balance is less than min fare' do
-      expect { subject.touch_in(station) }.to raise_error('Insufficient balance')
+      expect { subject.touch_in(entry_station) }.to raise_error('Insufficient balance')
     end
   end
 
   describe '#touch_out' do
     it 'when card touches out, in journey is changed to false' do  
       subject.add_money(Oystercard::MIN_FARE)
-      subject.touch_in(station)
-      subject.touch_out
-      expect(subject).not_to be_in_journey
+      subject.touch_in(entry_station)
+      expect(subject).to be_in_journey
     end
     
     it 'deducts fare from balance' do
       subject.add_money(Oystercard::MIN_FARE)
-      subject.touch_in(station)
-      expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MIN_FARE)
+      subject.touch_in(entry_station)
+      expect { subject.touch_out(exit_station)}.to change { subject.balance }.by(-Oystercard::MIN_FARE)
     end
 
     it 'resets entry station to nil' do
       subject.add_money(Oystercard::MIN_FARE)
-      subject.touch_in(station)
-      subject.touch_out
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
       expect(subject.entry_station).to eq nil
     end
 
     it 'checks that the card has an empty list of journeys' do
       expect(subject.list_of_journeys).to be_empty
-      
+    end
 
+    it "Checks touching in and touching out creates a journey" do
+      subject.add_money(Oystercard::MIN_FARE)
+      subject.touch_in("Leytonstone")
+      subject.touch_out("Liverpool Street")
+      expect(subject.list_of_journeys).to include{"Journey: " => "Leytonstone -> Liverpool Street"}
+    end
+
+    it "Checks that touching in and out creates one journey" do
+      subject.add_money(Oystercard::MIN_FARE)
+      subject.touch_in("Leytonstone")
+      subject.touch_out("Liverpool Street")
+      expect((subject.list_of_journeys).count).to eq 1
     end
 
   end
