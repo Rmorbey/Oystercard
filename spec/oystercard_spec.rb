@@ -62,6 +62,12 @@ describe Oystercard do
       expect(subject.entry_station).to eq nil
     end
 
+    it 'checks that the card has an empty list of journeys' do
+      expect(subject.list_of_journeys).to be_empty
+      
+
+    end
+
   end
 
 end
