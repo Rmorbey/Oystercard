@@ -30,12 +30,12 @@ describe Oystercard do
     expect(subject.entry_station).to eq entry_station
   end
 
-  # it 'stores exit station' do
-  #   subject.add_money(Oystercard::MIN_FARE)
-  #   subject.touch_in(entry_station)
-  #   subject.touch_out(exit_station)
-  #   expect(subject.exit_station).to eq exit_station
-  # end
+  it 'stores exit station' do
+    subject.add_money(Oystercard::MIN_FARE)
+    subject.touch_in(entry_station)
+    subject.touch_out(exit_station)
+    expect(subject.exit_station).to eq exit_station
+  end
 
 
   describe '#touch_in' do

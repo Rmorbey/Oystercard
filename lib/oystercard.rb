@@ -1,5 +1,5 @@
 class Oystercard
-  attr_reader :balance, :entry_station, :list_of_journeys
+  attr_reader :balance, :entry_station, :list_of_journeys, :exit_station
 
 
   MAX_BALANCE = 90
@@ -9,6 +9,7 @@ class Oystercard
     @balance = 0
     @entry_station = nil
     @list_of_journeys = []
+    @exit_station = nil
   end
   
   def add_money(money)
@@ -29,15 +30,16 @@ class Oystercard
   
   def touch_out(exit_station)
     deduct_money(MIN_FARE)
+    @exit_station = exit_station
     @list_of_journeys << {"Journey: " => "#{entry_station} -> #{exit_station}"}
     @entry_station = nil
-    
   end
   
   private 
   
   def check_min_balance
-    fail 'Insufficient balance' unless @balance >= MIN_FARE
+    fail 'Insufficient balance' if @balance < MIN_FARE
+    @in_journey = true
   end
 
   def deduct_money(money)
