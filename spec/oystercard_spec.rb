@@ -12,6 +12,10 @@ describe Oystercard do
   it 'creates an instance of Oystercard' do
     expect(subject).to be_instance_of(Oystercard)
   end
+
+  it 'it does not let you touch in if balance is less than min fare' do
+    expect { subject.touch_in(entry_station) }.to raise_error('Insufficient balance')
+  end
   
   describe '#add_money' do
     it 'does not allow user to add more than maximum funds' do
@@ -32,10 +36,6 @@ describe Oystercard do
       it 'when card touches in, Oyster has a current journey' do
         expect(subject.current_journey).not_to be_nil 
       end
-
-      # it 'it does not let you touch in if balance is less than min fare' do
-      #   # expect { subject.touch_in(entry_station) }.to raise_error('Insufficient balance')
-      # end
     end
 
     describe '#touch_out' do
