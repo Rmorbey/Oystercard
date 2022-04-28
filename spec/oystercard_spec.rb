@@ -9,10 +9,6 @@ describe Oystercard do
     expect(subject.balance).to eq(0)
   end
   
-  it 'checks that new oystercard is not in journey' do
-    expect(subject.in_journey?).to be false
-  end
-
   it 'creates an instance of Oystercard' do
     expect(subject).to be_instance_of(Oystercard)
   end

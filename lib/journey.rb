@@ -13,15 +13,11 @@ class Journey
 
   def finish(exit_station)
     @exit_station = exit_station
-      @state = "complete"
+    @state = "complete" unless @entry_station == nil
     end
 
     def fare
-      if @entry_station == nil || @exit_station == nil
-        PENALTY_FARE
-      else
-        1
-      end
+      @entry_station == nil || @exit_station == nil ? PENALTY_FARE : 1
     end
 
 end

@@ -5,41 +5,39 @@ class Oystercard
   MAX_BALANCE = 90
   MIN_FARE = 1
 
-  def initialize
+  def initialize(journey_class=Journey)
     @balance = 0
-    @entry_station = nil
+    # @entry_station = nil
     @list_of_journeys = []
-    @exit_station = nil
+    # @exit_station = nil
+    @journey_class = journey_class
   end
   
   def add_money(money)
     check_if_max_balance_exceeded(money)
     @balance += money
   end
-  
-  def in_journey?
-    # entry_station == nil ? false : true
-   # Alternativly use Double Bang!
-   !!entry_station
-  end
+
   
   def touch_in(entry_station)
     check_min_balance
-    @entry_station = entry_station
+    j = journey_class.new
+    j.start(entry_station)
+    # @entry_station = entry_station
   end
   
   def touch_out(exit_station)
-    deduct_money(MIN_FARE)
-    @exit_station = exit_station
-    @list_of_journeys << {"Journey: " => "#{entry_station} -> #{exit_station}"}
-    @entry_station = nil
+    j.finish(exit_station)
+    deduct_money(j.fare)
+    # @exit_station = exit_station
+    @list_of_journeys << j
+    # @entry_station = nil
   end
   
   private 
   
   def check_min_balance
     fail 'Insufficient balance' if @balance < MIN_FARE
-    @in_journey = true
   end
 
   def deduct_money(money)

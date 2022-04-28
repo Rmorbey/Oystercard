@@ -6,7 +6,7 @@ describe Journey do
   let(:entry_station) {double :entry_station}
   let(:exit_station) {double :entry_station}
   
-  it 'charges penalty fare when no touch in' do
+  it 'charges penalty fare when no touch in or out' do
     expect(subject.fare).to eq Journey::PENALTY_FARE
   end
 
@@ -17,9 +17,10 @@ describe Journey do
       expect(subject.state).to eq "incomplete"
     end
 
+    it 'charges a penalty fare when no touch in' do
+      expect(subject.fare).to eq Journey::PENALTY_FARE
+    end
   end
-
-
 
   context 'it starts a journey' do
     before(:each) { subject.start(entry_station) }
