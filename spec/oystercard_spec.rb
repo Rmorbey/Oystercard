@@ -28,19 +28,9 @@ describe Oystercard do
     before(:each) { subject.add_money(Oystercard::MIN_FARE) }
     before(:each) { subject.touch_in(entry_station) }
 
-    it 'stores exit station' do
-
-      
-      subject.touch_out(exit_station)
-      expect(subject.exit_station).to eq exit_station
-    end
-
-
     describe '#touch_in' do
-      it 'when card touches in, in journey is changed to true' do
-  
-        
-        expect(subject).to be_in_journey
+      it 'when card touches in, Oyster has a current journey' do
+        expect(subject.current_journey).not_to be_nil 
       end
 
       # it 'it does not let you touch in if balance is less than min fare' do
