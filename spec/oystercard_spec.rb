@@ -39,43 +39,37 @@ describe Oystercard do
     end
 
     describe '#touch_out' do
-      it 'when card touches out, Oyster no longer has a journey' do  
-        subject.touch_out(exit_station)
-        expect(subject.current_journey).to be_nil
+
+      context 'Oystercard touches out' do 
+        before(:each) { subject.touch_out(exit_station) }
+
+        it 'when card touches out, Oyster no longer has a journey' do  
+          expect(subject.current_journey).to be_nil
+        end
+
+        it 'resets entry station to nil' do
+          expect(subject.entry_station).to eq nil
+        end
+
+        it "Checks touching in and touching out creates a journey" do
+          expect(subject.list_of_journeys).to include{"Journey: " => "#{entry_station} -> #{exit_station}"}
+        end
+          
+        it "Checks that touching in and out creates one journey" do
+          expect((subject.list_of_journeys).count).to eq 1
+        end
       end
+        
       
       it 'deducts fare from balance' do
-  
+        
         
         expect { subject.touch_out(exit_station)}.to change { subject.balance }.by(-Oystercard::MIN_FARE)
       end
-
-      it 'resets entry station to nil' do
-  
-        
-        subject.touch_out(exit_station)
-        expect(subject.entry_station).to eq nil
-      end
-      
-      
-      it "Checks touching in and touching out creates a journey" do
-  
-        subject.touch_in("Leytonstone")
-        subject.touch_out("Liverpool Street")
-        expect(subject.list_of_journeys).to include{"Journey: " => "Leytonstone -> Liverpool Street"}
-      end
-      
-      it "Checks that touching in and out creates one journey" do
-  
-        subject.touch_in("Leytonstone")
-        subject.touch_out("Liverpool Street")
-        expect((subject.list_of_journeys).count).to eq 1
-      end
-      
     end
   end
-  
 end
+
 
 
 
