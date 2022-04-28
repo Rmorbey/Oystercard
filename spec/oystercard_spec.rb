@@ -39,10 +39,9 @@ describe Oystercard do
     end
 
     describe '#touch_out' do
-      it 'when card touches out, in journey is changed to false' do  
-  
-        
-        expect(subject).to be_in_journey
+      it 'when card touches out, Oyster no longer has a journey' do  
+        subject.touch_out(exit_station)
+        expect(subject.current_journey).to be_nil
       end
       
       it 'deducts fare from balance' do
