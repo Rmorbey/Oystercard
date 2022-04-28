@@ -30,7 +30,7 @@ describe Journey do
       before(:each) { subject.end(exit_station) }
 
       it 'stores the exit station' do
-        expect(subject.exit_station).eq exit_station
+        expect(subject.exit_station).to eq exit_station
       end
 
       it 'can calculate fare for normal journey' do
@@ -38,7 +38,7 @@ describe Journey do
       end
 
       it 'it returns when a journey is complete' do
-        expect(subject.state).eq "complete"
+        expect(subject.state).to eq "complete"
       end
     end
   end
