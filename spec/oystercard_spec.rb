@@ -5,6 +5,7 @@ describe Oystercard do
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
 
+
   it 'returns balance' do
     expect(subject.balance).to eq(0)
   end
@@ -19,8 +20,7 @@ describe Oystercard do
   
   describe '#add_money' do
     it 'does not allow user to add more than maximum funds' do
-      subject.add_money(Oystercard::MAX_BALANCE)
-      expect { subject.add_money(1) }.to raise_error("funds cannot be added: maximum balance £#{Oystercard::MAX_BALANCE}")
+      expect { subject.add_money(Oystercard::MAX_BALANCE + 1) }.to raise_error("funds cannot be added: maximum balance £#{Oystercard::MAX_BALANCE}")
     end
   end
 
@@ -62,8 +62,6 @@ describe Oystercard do
         
       
       it 'deducts fare from balance' do
-        
-        
         expect { subject.touch_out(exit_station)}.to change { subject.balance }.by(-Oystercard::MIN_FARE)
       end
     end
