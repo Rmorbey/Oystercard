@@ -28,13 +28,6 @@ describe Oystercard do
     before(:each) { subject.add_money(Oystercard::MIN_FARE) }
     before(:each) { subject.touch_in(entry_station) }
 
-
-    it 'stores the entry station' do 
-
-      
-      expect(subject.entry_station).to eq entry_station
-    end
-
     it 'stores exit station' do
 
       

@@ -21,7 +21,7 @@ class Oystercard
   
   def touch_in(entry_station)
     check_min_balance
-    j = journey_class.new
+    j = @journey_class.new
     j.start(entry_station)
     # @entry_station = entry_station
   end
