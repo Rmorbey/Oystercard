@@ -7,7 +7,7 @@ describe Journey do
   let(:exit_station) {double :entry_station}
   
   it 'charges penalty fare when no touch in' do
-
+    expect(subject.fare).to eq Journey::PENALTY_FARE
   end
 
 
@@ -23,7 +23,7 @@ describe Journey do
     end
 
     it 'returns when a journey is not complete' do
-
+      expect(subject.state).to eq "incomplete"
     end
   
     context 'it ends the journey' do
