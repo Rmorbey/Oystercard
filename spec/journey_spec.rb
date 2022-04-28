@@ -18,8 +18,8 @@ describe Journey do
       expect(subject.entry_station).to eq entry_station
     end
 
-    it 'it charges penalty fare when no touch out' do
-
+    it 'it charges a penalty fare when no touch out' do
+      expect(subject.fare).to eq Journey::PENALTY_FARE
     end
 
     it 'returns when a journey is not complete' do
@@ -27,7 +27,7 @@ describe Journey do
     end
   
     context 'it ends the journey' do
-      before(:each) { subject.end(exit_station) }
+      before(:each) { subject.finish(exit_station) }
 
       it 'stores the exit station' do
         expect(subject.exit_station).to eq exit_station
